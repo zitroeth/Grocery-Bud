@@ -6,18 +6,25 @@ import ItemList from "./ItemList.tsx";
 import { useState, useEffect } from "react";
 
 function App() {
-  const [items, setItems] = useState<{ id: string; text: string }[]>([]);
+  const [items, setItems] = /*useState<{ id: string; text: string }[]>([]);*/useState(() => {
+    const items = JSON.parse(localStorage.getItem("items")!);
+    if (items) {
+      return items;
+    } else{
+      localStorage.setItem("items", "[]");
+    }
+  });
 
-  useEffect(() => {
-    localStorage.setItem("items", JSON.stringify(items));
-  }, [items]);
-
-  useEffect(() => {
+  /*useEffect(() => {
     const items = JSON.parse(localStorage.getItem("items")!);
     if (items) {
       setItems(items);
     }
-  }, []);
+  }, []);*/
+
+  useEffect(() => {
+    localStorage.setItem("items", JSON.stringify(items));
+  }, [items]);
 
   function handleSubmission(text: string) {
     const newArr = items.concat({ id: uuidv4(), text: text });
@@ -26,7 +33,7 @@ function App() {
   }
 
   function handleDeletion(deleteId: string) {
-    const newArr = items.filter((item) => {
+    const newArr = items.filter((item: { id: string; text: string }) => {
       return item.id !== deleteId;
     });
     setItems(newArr);
