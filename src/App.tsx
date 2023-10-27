@@ -1,5 +1,5 @@
 import "./App.css";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import Notification from "./Notification.tsx";
 import InputField from "./InputField.tsx";
 import ItemList from "./ItemList.tsx";
