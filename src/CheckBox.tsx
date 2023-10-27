@@ -1,11 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface Props {
   item: { id: string; text: string };
 }
 
 function CheckBox({ item }: Props) {
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(() => {
+    const checkBoxSet = JSON.parse(localStorage.getItem("checkBox" + item.id)!);
+    if (checkBoxSet) return checkBoxSet;
+    else return false;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("checkBox" + item.id, JSON.stringify(isChecked));
+  }, [isChecked, item.id]);
 
   function handleChange() {
     setIsChecked(!isChecked);
@@ -13,7 +21,7 @@ function CheckBox({ item }: Props) {
 
   return (
     <>
-      <input type="checkbox" onChange={handleChange} />
+      <input type="checkbox" onChange={handleChange} checked={isChecked} />
       <p
         style={
           isChecked

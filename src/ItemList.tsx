@@ -1,4 +1,5 @@
 import CheckBox from "./CheckBox";
+import { toast } from "react-toastify";
 interface Props {
   items: { id: string; text: string }[];
   onDeletion: (deleteId: string) => void;
@@ -13,7 +14,11 @@ function ItemList({ items, onDeletion }: Props) {
         type="button"
         onClick={(e) => {
           e.preventDefault();
+          localStorage.removeItem("checkBox" + item.id);
           onDeletion(item.id);
+          toast.success('Item "' + item.text + '" was deleted', {
+            position: toast.POSITION.TOP_CENTER,
+          });
         }}
       >
         delete

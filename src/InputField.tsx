@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { toast } from "react-toastify";
 interface Props {
   title: string;
   onSubmission: (text: string) => void;
@@ -10,11 +10,27 @@ function InputField({ title, onSubmission }: Props) {
 
   return (
     <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        onSubmission(currentInput);
-        setCurrentInput("");
-      }}
+      onSubmit={
+        currentInput
+          ? (e) => {
+              e.preventDefault();
+              onSubmission(currentInput);
+              toast.success(
+                'Item "' + currentInput + '" was added to the list',
+                {
+                  position: toast.POSITION.TOP_CENTER,
+                }
+              );
+              setCurrentInput("");
+            }
+          : (e) => {
+              e.preventDefault();
+              toast.error("Please provide value", {
+                position: toast.POSITION.TOP_CENTER,
+              });
+              setCurrentInput("");
+            }
+      }
     >
       <h4>{title}</h4>
       <div className="form-control">

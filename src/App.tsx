@@ -1,26 +1,19 @@
 import "./App.css";
 import { v4 as uuidv4 } from "uuid";
-import Notification from "./Notification.tsx";
 import InputField from "./InputField.tsx";
 import ItemList from "./ItemList.tsx";
 import { useState, useEffect } from "react";
+import { ToastContainer } from "react-toastify";
 
 function App() {
-  const [items, setItems] = /*useState<{ id: string; text: string }[]>([]);*/useState(() => {
+  const [items, setItems] = useState(() => {
     const items = JSON.parse(localStorage.getItem("items")!);
     if (items) {
       return items;
-    } else{
+    } else {
       localStorage.setItem("items", "[]");
     }
   });
-
-  /*useEffect(() => {
-    const items = JSON.parse(localStorage.getItem("items")!);
-    if (items) {
-      setItems(items);
-    }
-  }, []);*/
 
   useEffect(() => {
     localStorage.setItem("items", JSON.stringify(items));
@@ -42,8 +35,8 @@ function App() {
 
   return (
     <section className="section-center">
-      <Notification />
-      <InputField title="dsadasdsasd" onSubmission={handleSubmission} />
+      <ToastContainer autoClose={5000} />
+      <InputField title="Grocery Bud" onSubmission={handleSubmission} />
       <ItemList items={items} onDeletion={handleDeletion} />
     </section>
   );
