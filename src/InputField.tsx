@@ -13,6 +13,7 @@ function InputField({ title, onSubmission }: Props) {
       onSubmit={(e) => {
         e.preventDefault();
         onSubmission(currentInput);
+        setCurrentInput("");
       }}
     >
       <h4>{title}</h4>
